@@ -1,0 +1,38 @@
+# 1.两数之和
+字典解法，用空间换时间，可以将O(N2)的时间优化到O(N)。
+判断数组是否存在两数之和等于target，只需要从头遍历数组，判断target-num[i]是否事先加入了在hashmap，未搜索到目标则将num[i]加入hashmap
+
+# 2.两数相加
+双链表逆序存储的多位数相加，低位加到高位，新链表的next指针什么时候能置空，需要在loop内冗余代码多判断一次，要一次循环优雅实现遍历，可增加虚拟头节点，参考如下解法
+```
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        ListNode root = new ListNode(0);
+        ListNode cursor = root;
+        int carry = 0;
+        while(l1 != null || l2 != null || carry != 0) {
+            int l1Val = l1 != null ? l1.val : 0;
+            int l2Val = l2 != null ? l2.val : 0;
+            int sumVal = l1Val + l2Val + carry;
+            carry = sumVal / 10;
+            
+            ListNode sumNode = new ListNode(sumVal % 10);
+            cursor.next = sumNode;
+            cursor = sumNode;
+            
+            if(l1 != null) l1 = l1.next;
+            if(l2 != null) l2 = l2.next;
+        }
+        
+        return root.next;
+    }
+}
+```
